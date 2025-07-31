@@ -1,0 +1,18 @@
+# Core Django and dependencies
+Django~=5.2.4
+asgiref~=3.9.1
+sqlparse~=0.5.3
+pillow~=11.3.0
+
+# PostgreSQL database support
+psycopg2-binary~=2.9.10
+
+# Environment-based database config
+dj-database-url~=3.0.1
+
+# Static files middleware
+whitenoise~=6.9.0
+
+# Cloud storage support
+django-storages~=1.14.6
+azure-storage-blob~=12.26.0

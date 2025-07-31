@@ -1,0 +1,51 @@
+{% extends 'drawings/base.html' %}
+{% block title %}{{ site_settings.header_text }}{% endblock %}
+
+{% block content %}
+  {% if site_settings.show_intro %}
+    <div class="mb-4 text-center">
+      <p class="fs-5" style="color: {{ site_settings.intro_text_color }};">
+        {{ site_settings.intro_text }}
+      </p>
+      <hr style="border-color: {{ site_settings.separator_color }};">
+    </div>
+  {% endif %}
+
+  <div class="row">
+    {% for drawing in drawings %}
+      <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
+        <a href="{% url 'drawing_detail' drawing.pk %}"
+           class="text-decoration-none text-dark w-100">
+          <div class="card h-100 position-relative"
+               style="background-color: {{ site_settings.card_bg }};
+                      color: {{ site_settings.card_text_color }};
+                      border-color: {{ site_settings.card_border_color }};">
+            <div class="ratio ratio-4x3 overflow-hidden">
+              <img src="{{ drawing.image.url }}"
+                   class="img-fluid"
+                   style="object-fit: contain;"
+                   alt="{{ drawing.title }}">
+            </div>
+            <div style="border-top: 1px solid {{ site_settings.card_border_color }};"></div>
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title" style="min-height: 2.5rem;">
+                {{ drawing.title }}
+                {% if drawing.pinned %}
+                  <span class="badge position-absolute top-0 start-0 m-2"
+                        style="background-color: {{ site_settings.pinned_label_bg }};
+                               color: {{ site_settings.pinned_label_text_color }};
+                               font-weight: bold;">
+                    {{ site_settings.pinned_label_text }}
+                  </span>
+                {% endif %}
+              </h5>
+              <p class="card-text flex-grow-1" style="min-height: 4rem;">
+                {{ drawing.description }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

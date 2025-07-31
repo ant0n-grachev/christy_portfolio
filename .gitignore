@@ -1,0 +1,8 @@
+/.venv/
+/.idea/
+/christy_portfolio/.env
+/christy_portfolio/__pycache__/
+/drawings/__pycache__/
+/drawings/migrations/__pycache__/
+/media/
+/db.sqlite3

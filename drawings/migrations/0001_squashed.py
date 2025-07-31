@@ -1,0 +1,63 @@
+import django.core.validators
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='Drawing',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=100)),
+                ('description', models.TextField(blank=True)),
+                ('image', models.ImageField(upload_to='drawings/')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('pinned', models.BooleanField(default=False)),
+            ],
+            options={
+                'verbose_name': 'Post',
+                'verbose_name_plural': 'Posts',
+            },
+        ),
+        migrations.CreateModel(
+            name='SiteSettings',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('header_text', models.CharField(default='Portfolio', max_length=200, verbose_name='Header Text')),
+                ('header_bg', models.CharField(default='#343a40', max_length=20, verbose_name='Header Background Color')),
+                ('site_bg', models.CharField(default='#ffffff', max_length=20, verbose_name='Site Background Color')),
+                ('card_bg', models.CharField(default='#ffffff', max_length=20, verbose_name='Card Background Color')),
+                ('footer_bg', models.CharField(default='#f8f9fa', max_length=20, verbose_name='Footer Background Color')),
+                ('footer_text_color', models.CharField(default='#000000', max_length=20, verbose_name='Footer Text Color')),
+                ('header_text_color', models.CharField(default='#ffffff', max_length=20, verbose_name='Header Text Color')),
+                ('card_border_color', models.CharField(default='#dee2e6', max_length=20, verbose_name='Card Border Color')),
+                ('button_bg', models.CharField(default='#6c757d', max_length=20, verbose_name='Button Background Color')),
+                ('button_text_color', models.CharField(default='#ffffff', max_length=20, verbose_name='Button Text Color')),
+                ('button_text', models.CharField(default='← Back to portfolio', max_length=100, verbose_name='Button Text')),
+                ('card_text_color', models.CharField(default='#000000', max_length=20, verbose_name='Card Text Color')),
+                ('pinned_label_bg', models.CharField(default='#ffc107', max_length=20, verbose_name='Pinned Label Background')),
+                ('pinned_label_text', models.CharField(default='📌 Pinned', max_length=50, verbose_name='Pinned Label Text')),
+                ('pinned_label_text_color', models.CharField(default='#212529', max_length=20, verbose_name='Pinned Label Text Color')),
+                ('show_uploaded_date', models.BooleanField(default=True, verbose_name='Show Uploaded Date')),
+                ('uploaded_date_color', models.CharField(default='#6c757d', max_length=20, verbose_name='Uploaded Date Text Color')),
+                ('intro_text', models.TextField(blank=True, default='Welcome to my portfolio!', verbose_name='Introduction Text')),
+                ('intro_text_color', models.CharField(default='#000000', max_length=20, verbose_name='Introduction Text Color')),
+                ('separator_color', models.CharField(default='#dee2e6', max_length=20, verbose_name='Separator Line Color')),
+                ('show_intro', models.BooleanField(default=True, verbose_name='Show Introduction')),
+                ('favicon', models.ImageField(blank=True, null=True, upload_to='favicons/', validators=[django.core.validators.FileExtensionValidator(['ico', 'png', 'jpg', 'jpeg'])], verbose_name='Favicon (32x32 .ico/.png/.jpg)')),
+                ('footer_text', models.TextField(default='© All rights reserved. The content displayed on this site are the intellectual property of the website owner. Unauthorized use, redistribution, or reproduction of any material without explicit permission is strictly prohibited.', verbose_name='Footer Text')),
+                ('owner_email', models.EmailField(blank=True, max_length=254, verbose_name='Owner Email')),
+                ('owner_name', models.CharField(blank=True, max_length=100, verbose_name='Owner Name')),
+                ('show_download', models.BooleanField(default=True, verbose_name='Show Download Button')),
+            ],
+            options={
+                'verbose_name_plural': 'Site Settings',
+            },
+        ),
+    ]
