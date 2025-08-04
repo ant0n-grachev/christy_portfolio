@@ -1,30 +1,39 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 import uuid, os
 
 
-def unique_name(filename):
+def unique_name(instance, filename):
     ext = os.path.splitext(filename)[1]
     return f"{uuid.uuid4()}{ext}"
-
-
-def drawing_upload_path(instance, filename):
-    return f"drawings/{unique_name(filename)}"
-
-
-def favicon_upload_path(instance, filename):
-    return f"favicons/{unique_name(filename)}"
 
 
 class Drawing(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to=drawing_upload_path)
+    image = models.ImageField(
+        upload_to=unique_name,
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(["jpg", "jpeg", "png", "gif"])]
+    )
+    video = models.FileField(
+        upload_to=unique_name,
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(['mp4', 'mov', 'avi', 'webm'])]
+    )
     pinned = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        super().clean()
+        if self.video and not self.image:
+            raise ValidationError("An image is required when uploading a video.")
 
     class Meta:
         verbose_name = "Post"
@@ -49,9 +58,11 @@ class SiteSettings(models.Model):
     button_bg = models.CharField(max_length=20, default="#6c757d", verbose_name="Button Background Color")
     button_text_color = models.CharField(max_length=20, default="#ffffff", verbose_name="Button Text Color")
     button_text = models.CharField(max_length=100, default="← Back to portfolio", verbose_name="Button Text")
+    show_media_type = models.BooleanField(default=True, verbose_name="Show Media Type Label")
+    show_pinned_label = models.BooleanField(default=True, verbose_name="Show Pinned Label")
     pinned_label_text = models.CharField(max_length=50, default="📌 Pinned", verbose_name="Pinned Label Text")
-    pinned_label_text_color = models.CharField(max_length=20, default="#212529", verbose_name="Pinned Label Text Color")
-    pinned_label_bg = models.CharField(max_length=20, default="#ffc107", verbose_name="Pinned Label Background")
+    pinned_label_text_color = models.CharField(max_length=20, default="#212529", verbose_name="Label Text Color")
+    pinned_label_bg = models.CharField(max_length=20, default="#ffc107", verbose_name="Label Background Color")
     show_uploaded_date = models.BooleanField(default=True, verbose_name="Show Uploaded Date")
     uploaded_date_color = models.CharField(max_length=20, default="#6c757d", verbose_name="Uploaded Date Text Color")
     show_intro = models.BooleanField(default=True, verbose_name="Show Introduction")
@@ -59,8 +70,8 @@ class SiteSettings(models.Model):
     intro_text = models.TextField(blank=True, default="Welcome to my portfolio!", verbose_name="Introduction Text")
     intro_text_color = models.CharField(max_length=20, default="#000000", verbose_name="Introduction Text Color")
     separator_color = models.CharField(max_length=20, default="#dee2e6", verbose_name="Separator Line Color")
-    favicon = models.ImageField(upload_to=favicon_upload_path, blank=True, null=True,
-                                verbose_name="Favicon (32x32 .ico/.png/.jpg)",
+    favicon = models.ImageField(upload_to=unique_name, blank=True, null=True,
+                                verbose_name="Favicon (32x32 .ico/.png/.jpg/.jpeg)",
                                 validators=[FileExtensionValidator(['ico', 'png', 'jpg', 'jpeg'])])
 
     def __str__(self):

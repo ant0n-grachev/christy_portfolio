@@ -2,46 +2,64 @@
 {% block title %}{{ site_settings.header_text }} - {{ drawing.title }}{% endblock %}
 
 {% block content %}
-  <div class="mb-5 text-center">
-    <a href="{% url 'drawing_list' %}"
-       class="btn mx-2"
-       style="background-color: {{ site_settings.button_bg }};
-              color: {{ site_settings.button_text_color }};">
-      {{ site_settings.button_text }}
-    </a>
-    {% if site_settings.show_download %}
-      <a href="{{ drawing.image.url }}"
-         download
-         class="btn mx-2"
-         style="background-color: {{ site_settings.button_bg }};
-                color: {{ site_settings.button_text_color }};">
-        Download
-      </a>
-    {% endif %}
-  </div>
-
-  <div class="card mx-auto w-100" style="max-width: 30rem;
-                                         background-color: {{ site_settings.card_bg }};
-                                         color: {{ site_settings.text_color }};
-                                         border-color: {{ site_settings.card_border_color }};">
-    {# Responsive image wrapper #}
-    <div class="ratio ratio-4x3">
-      <img src="{{ drawing.image.url }}"
-           class="img-fluid"
-           style="object-fit: contain;"
-           alt="{{ drawing.title }}">
+    <div class="mb-5 text-center">
+        <a href="{% url 'drawing_list' %}"
+           class="btn mx-2"
+           style="background-color: {{ site_settings.button_bg }};
+                   color: {{ site_settings.button_text_color }};">
+            {{ site_settings.button_text }}
+        </a>
+        {% if site_settings.show_download %}
+            {% if drawing.video %}
+                <a href="{{ drawing.video.url }}"
+                   download
+                   class="btn mx-2"
+                   style="background-color: {{ site_settings.button_bg }};
+                           color: {{ site_settings.button_text_color }};">
+                    Download
+                </a>
+            {% elif drawing.image %}
+                <a href="{{ drawing.image.url }}"
+                   download
+                   class="btn mx-2"
+                   style="background-color: {{ site_settings.button_bg }};
+                           color: {{ site_settings.button_text_color }};">
+                    Download
+                </a>
+            {% endif %}
+        {% endif %}
     </div>
 
-    <div style="border-top: 1px solid {{ site_settings.card_border_color }};"></div>
+    <div class="card mx-auto w-100" style="max-width: 30rem;
+            background-color: {{ site_settings.card_bg }};
+            color: {{ site_settings.card_text_color }};
+            border-color: {{ site_settings.card_border_color }};">
+        <div class="ratio ratio-4x3">
+            {% if drawing.video %}
+                <video src="{{ drawing.video.url }}"
+                       class="img-fluid"
+                       style="object-fit: contain;"
+                       controls
+                       poster="{{ drawing.image.url }}">
+                </video>
+            {% elif drawing.image %}
+                <img src="{{ drawing.image.url }}"
+                     class="img-fluid"
+                     style="object-fit: contain;"
+                     alt="{{ drawing.title }}">
+            {% endif %}
+        </div>
 
-    <div class="card-body">
-      <h2 class="card-title">{{ drawing.title }}</h2>
-      <p class="card-text">{{ drawing.description }}</p>
-      {% if site_settings.show_uploaded_date %}
-        <p class="mt-3" style="color: {{ site_settings.uploaded_date_color }};">
-          Uploaded on {{ drawing.created_at|date:"F j, Y" }}
-        </p>
-      {% endif %}
+        <div style="border-top: 1px solid {{ site_settings.card_border_color }};"></div>
+
+        <div class="card-body">
+            <h2 class="card-title">{{ drawing.title }}</h2>
+            <p class="card-text">{{ drawing.description }}</p>
+            {% if site_settings.show_uploaded_date %}
+                <p class="mt-3" style="color: {{ site_settings.uploaded_date_color }};">
+                    Uploaded on {{ drawing.created_at|date:"F j, Y" }}
+                </p>
+            {% endif %}
+        </div>
     </div>
-  </div>
 {% endblock %}
