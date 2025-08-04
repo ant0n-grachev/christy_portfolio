@@ -43,7 +43,8 @@
                 {% if site_settings.owner_email %}
                     {% if site_settings.owner_name %} | {% endif %}
                     Contact:
-                    <a href="mailto:{{ site_settings.owner_email }}" style="color: {{ site_settings.footer_text_color }};">
+                    <a href="mailto:{{ site_settings.owner_email }}"
+                       style="color: {{ site_settings.footer_text_color }};">
                         {{ site_settings.owner_email }}
                     </a>
                 {% endif %}
