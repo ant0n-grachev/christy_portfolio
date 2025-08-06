@@ -15,7 +15,7 @@ class DrawingAdminForm(forms.ModelForm):
 
     class Meta:
         model = Drawing
-        fields = ['title', 'description', 'pinned', 'media_type', 'image', 'video']
+        fields = ['title', 'description', 'medium', 'pinned', 'media_type', 'image', 'video']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,7 +54,7 @@ class DrawingAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
     readonly_fields = ("drawing_preview",)
-    fields = ('title', 'description', 'pinned', 'media_type', 'image', 'video', 'drawing_preview')
+    fields = ('title', 'description', 'medium', 'pinned', 'media_type', 'image', 'video', 'drawing_preview')
 
     def drawing_preview(self, obj):
         if obj.video:
@@ -78,10 +78,10 @@ class DrawingAdmin(admin.ModelAdmin):
 class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
         ("🧢 Header Settings", {
-            "fields": ("header_text", "header_text_color", "header_bg")
+            "fields": ("header_text", "header_text_color", "header_bg", "favicon")
         }),
-        ("🌐 Site Background and Favicon", {
-            "fields": ("site_bg", "favicon")
+        ("🌐 Site Background and Fonts", {
+            "fields": ("site_bg", "font_family")
         }),
         ("📄 Introduction Section", {
             "fields": ("show_intro", "intro_text", "intro_text_color", "separator_color")
@@ -91,8 +91,8 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                        "pinned_label_text", "pinned_label_text_color", "pinned_label_bg")
         }),
         ("📌 Post Details", {
-            "fields": ("show_uploaded_date", "uploaded_date_color", "button_text", "button_text_color", "button_bg",
-                       "show_download")
+            "fields": ("show_uploaded_date", "uploaded_date_color", "medium_text_color", "button_text",
+                       "button_text_color", "button_bg", "show_download")
         }),
         ("📭 Footer", {
             "fields": ("footer_text", "owner_name", "owner_email", "footer_text_color", "footer_bg")
