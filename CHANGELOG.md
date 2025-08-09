@@ -1,5 +1,9 @@
 # Changelog
 
+## [v3.1] - 2025-08-09
+### Changed
+- Switched production database from PostgreSQL to Azure SQL for cost savings.
+
 ## [v3] - 2025-08-09
 ### Added
 - Font selection feature for portfolio customization.

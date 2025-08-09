@@ -90,9 +90,24 @@ WSGI_APPLICATION = 'christy_portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3', }
-                        if DEBUG else
-                        dj_database_url.config(default=os.environ.get('DATABASE_URL', None))}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    db = dj_database_url.config(
+        default=os.environ.get('DATABASE_URL', ''),
+        engine='mssql',
+    )
+    db.setdefault('OPTIONS', {})
+    db['OPTIONS'].setdefault('driver', os.environ.get('MSSQL_DRIVER', 'ODBC Driver 18 for SQL Server'))
+    db['OPTIONS'].setdefault('extra_params', 'Encrypt=yes;TrustServerCertificate=no;')
+    db['OPTIONS'].setdefault('connect_timeout', 15)
+    DATABASES = {'default': db}
+    CONN_MAX_AGE = 0
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

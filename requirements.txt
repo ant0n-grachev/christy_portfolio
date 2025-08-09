@@ -4,10 +4,9 @@ asgiref~=3.9.1
 sqlparse~=0.5.3
 pillow~=11.3.0
 
-# PostgreSQL database support
-psycopg2-binary~=2.9.10
-
-# Environment-based database config
+# Azure SQL database support
+mssql-django~=1.6
+pyodbc~=5.2.0
 dj-database-url~=3.0.1
 
 # Static files middleware

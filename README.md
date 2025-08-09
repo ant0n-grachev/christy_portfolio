@@ -60,7 +60,7 @@ Django admin where new posts can be added, edited, or deleted. Easily manage art
 
 * **Backend**: Django 5
 * **Frontend**: Bootstrap 5
-* **Database**: PostgreSQL
+* **Database**: Azure SQL (SQL Server)
 * **Storage**: Azure Blob Storage (for uploaded media)
 * **Static Files**: WhiteNoise
 * **Deployment**: Gunicorn + Azure App Service
@@ -96,8 +96,9 @@ Visit `http://127.0.0.1:8000/` to view the portfolio, and `http://127.0.0.1:8000
 1. Configure environment variables:
 
    * `SECRET_KEY`
-   * `DEBUG`
+   * `DEBUG` (False)
    * `ALLOWED_HOSTS`
+   * `DATABASE_URL` (Azure SQL)
    * Azure storage credentials (`AZURE_ACCOUNT_NAME`, `AZURE_ACCOUNT_KEY`, `AZURE_CONTAINER`)
 2. Run the `startup.sh` script:
 
