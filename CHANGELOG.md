@@ -1,6 +1,8 @@
 # Changelog
 
 ## [v3.1] - 2025-08-09
+### Added
+- Description preview truncation and line breaks in full view.
 ### Changed
 - Switched production database from PostgreSQL to Azure SQL for cost savings.
 

@@ -57,7 +57,7 @@
                                 {{ drawing.title }}
                             </h3>
                             <p class="card-text flex-grow-1" style="min-height: 4rem;">
-                                {{ drawing.description }}
+                                {{ drawing.description|truncatewords:20 }}
                             </p>
                         </div>
                     </div>
