@@ -1,5 +1,10 @@
 # Changelog
 
+## [v3.2] - 2025-08-11
+### Added
+- Local caching.
+- Nine posts per page restriction.
+
 ## [v3.1] - 2025-08-09
 ### Added
 - Description preview truncation and line breaks in full view.

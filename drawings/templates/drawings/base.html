@@ -16,9 +16,15 @@
 <!-- Header -->
 <header class="py-3 mb-4" style="background-color: {{ site_settings.header_bg }};">
     <div class="container text-center">
-        <h1 class="h3 m-0" style="color: {{ site_settings.header_text_color }}">{{ site_settings.header_text }}</h1>
+        <h1 class="h3 m-0">
+            <a href="{% url 'drawing_list' %}"
+               style="color: {{ site_settings.header_text_color }}; text-decoration: none;">
+                {{ site_settings.header_text }}
+            </a>
+        </h1>
     </div>
 </header>
+
 
 <!-- Page Content -->
 <main class="flex-grow-1">
@@ -51,7 +57,7 @@
         {% endif %}
         <small class="d-block text-end">
             By <a href="https://anton.grachev.us" target="_blank" rel="noopener noreferrer"
-                       style="color: {{ site_settings.footer_text_color }};">Anton</a>
+                  style="color: {{ site_settings.footer_text_color }};">Anton</a>
         </small>
     </div>
 </footer>

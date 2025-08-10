@@ -14,7 +14,7 @@
     <div class="row">
         {% for drawing in drawings %}
             <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
-                <a href="{% url 'drawing_detail' drawing.pk %}"
+                <a href="{% url 'drawing_detail' drawing.pk %}{% if drawings.number > 1 %}?from_page={{ drawings.number }}{% endif %}"
                    class="text-decoration-none text-dark w-100">
                     <div class="card h-100 position-relative"
                          style="background-color: {{ site_settings.card_bg }};
@@ -65,4 +65,66 @@
             </div>
         {% endfor %}
     </div>
+
+    {% if drawings.has_other_pages %}
+        <nav class="mt-4" aria-label="Pagination">
+            <div class="d-flex justify-content-center">
+                <div class="d-inline-flex flex-nowrap gap-2"
+                     style="max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:.25rem; white-space:nowrap;">
+
+                    {# Prev #}
+                    {% if drawings.has_previous %}
+                        <a href="?page={{ drawings.previous_page_number }}" class="btn"
+                           style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">←</a>
+                    {% endif %}
+
+                    {% if total_pages <= 9 %}
+                        {% for p in drawings.paginator.page_range %}
+                            <a href="?page={{ p }}"
+                               class="btn {% if p == current %}disabled{% endif %}"
+                               style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">
+                                {{ p }}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        {% with start=page_window.0 end=page_window|last last=total_pages %}
+                            {# First page if window doesn't start at 1 #}
+                            {% if start > 1 %}
+                                <a href="?page=1"
+                                   class="btn {% if current == 1 %}disabled{% endif %}"
+                                   style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">1</a>
+                                {% if start > 2 %}<span class="px-2" style="flex:0 0 auto;">…</span>{% endif %}
+                            {% endif %}
+
+                            {# Middle window around current #}
+                            {% for p in page_window %}
+                                <a href="?page={{ p }}"
+                                   class="btn {% if p == current %}disabled{% endif %}"
+                                   style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">
+                                    {{ p }}
+                                </a>
+                            {% endfor %}
+
+                            {# Last page if window doesn't end at N #}
+                            {% if end < last %}
+                                {% if end < last|add:'-1' %}<span class="px-2" style="flex:0 0 auto;">…</span>
+                                {% endif %}
+                                <a href="?page={{ last }}"
+                                   class="btn {% if current == last %}disabled{% endif %}"
+                                   style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">
+                                    {{ last }}
+                                </a>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+
+                    {# Next #}
+                    {% if drawings.has_next %}
+                        <a href="?page={{ drawings.next_page_number }}" class="btn"
+                           style="flex:0 0 auto; background-color: {{ site_settings.button_bg }}; color: {{ site_settings.button_text_color }};">→</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 {% endblock %}

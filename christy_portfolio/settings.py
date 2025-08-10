@@ -109,6 +109,14 @@ else:
     DATABASES = {'default': db}
     CONN_MAX_AGE = 0
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'christy-portfolio-cache',
+    }
+}
+CACHE_MIDDLEWARE_SECONDS = 60 * 60
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
