@@ -1,5 +1,10 @@
 # Changelog
 
+## [v3.2.1] - 2025-08-12
+### Fixed
+- Eliminated cold-start 500 errors on Azure.
+- Moved dependency installs and static build to CI.
+
 ## [v3.2] - 2025-08-11
 ### Added
 - Local caching.

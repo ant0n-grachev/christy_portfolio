@@ -57,13 +57,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'christy_portfolio.urls'
@@ -104,10 +104,10 @@ else:
     )
     db.setdefault('OPTIONS', {})
     db['OPTIONS'].setdefault('driver', os.environ.get('MSSQL_DRIVER', 'ODBC Driver 18 for SQL Server'))
-    db['OPTIONS'].setdefault('extra_params', 'Encrypt=yes;TrustServerCertificate=no;')
-    db['OPTIONS'].setdefault('connect_timeout', 15)
+    db['OPTIONS'].setdefault('extra_params', 'Encrypt=yes;TrustServerCertificate=no;Login Timeout=30;ConnectRetryCount=3;ConnectRetryInterval=5')
     DATABASES = {'default': db}
-    CONN_MAX_AGE = 0
+    CONN_MAX_AGE = 60
+    DATABASES['default']['CONN_HEALTH_CHECKS'] = True
 
 CACHES = {
     'default': {
