@@ -1,11 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.cache import cache_page
-from django.conf import settings
 from django.core.paginator import Paginator
 from .models import Drawing
 
 
-@cache_page(settings.CACHE_MIDDLEWARE_SECONDS)
 def drawing_list(request):
     drawings_qs = Drawing.objects.all().order_by('-pinned', '-created_at')
     paginator = Paginator(drawings_qs, 9)
@@ -30,7 +27,6 @@ def drawing_list(request):
     return render(request, 'drawings/drawing_list.html', context)
 
 
-@cache_page(settings.CACHE_MIDDLEWARE_SECONDS)
 def drawing_detail(request, pk):
     drawing = get_object_or_404(Drawing, pk=pk)
     return render(request, 'drawings/drawing_detail.html', {'drawing': drawing})

@@ -5,6 +5,9 @@
 - Eliminated cold-start 500 errors on Azure.
 - Moved dependency installs and static build to CI.
 
+### Changed
+- Abandoned local caches in favor of CloudFlare
+
 ## [v3.2] - 2025-08-11
 ### Added
 - Local caching.

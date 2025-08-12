@@ -104,18 +104,12 @@ else:
     )
     db.setdefault('OPTIONS', {})
     db['OPTIONS'].setdefault('driver', os.environ.get('MSSQL_DRIVER', 'ODBC Driver 18 for SQL Server'))
-    db['OPTIONS'].setdefault('extra_params', 'Encrypt=yes;TrustServerCertificate=no;Login Timeout=30;ConnectRetryCount=3;ConnectRetryInterval=5')
+    db['OPTIONS'].setdefault('extra_params',
+                             'Encrypt=yes;TrustServerCertificate=no;'
+                             'Login Timeout=30;ConnectRetryCount=3;ConnectRetryInterval=5')
     DATABASES = {'default': db}
     CONN_MAX_AGE = 60
     DATABASES['default']['CONN_HEALTH_CHECKS'] = True
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'christy-portfolio-cache',
-    }
-}
-CACHE_MIDDLEWARE_SECONDS = 60 * 60
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

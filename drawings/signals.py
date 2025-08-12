@@ -1,6 +1,5 @@
 import os
-from django.db.models.signals import post_delete, pre_save, post_migrate, post_save
-from django.core.cache import cache
+from django.db.models.signals import post_delete, pre_save, post_migrate
 from django.dispatch import receiver
 from .models import Drawing, SiteSettings
 from .context_processors import defaults
@@ -43,11 +42,3 @@ def replace_old_favicon(sender, instance, **kwargs):
 def create_default_site_settings(sender, **kwargs):
     if not SiteSettings.objects.exists():
         SiteSettings.objects.create(**defaults)
-
-
-@receiver(post_save, sender=Drawing)
-@receiver(post_delete, sender=Drawing)
-@receiver(post_save, sender=SiteSettings)
-@receiver(post_delete, sender=SiteSettings)
-def clear_cached_pages(**kwargs):
-    cache.clear()
