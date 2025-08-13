@@ -1,4 +1,5 @@
 from .models import SiteSettings
+from django.db import DatabaseError
 
 defaults = {
     'header_text': "Portfolio",
@@ -36,7 +37,11 @@ defaults = {
 
 def site_settings(request):
     try:
-        settings, created = SiteSettings.objects.get_or_create(defaults=defaults)
-        return {'site_settings': settings}
-    except:
-        return {'site_settings': SiteSettings(**defaults)}
+        settings = SiteSettings.objects.get(pk=1)
+    except SiteSettings.DoesNotExist:
+        settings = SiteSettings.objects.create(pk=1, **defaults)
+    except SiteSettings.MultipleObjectsReturned:
+        settings = SiteSettings.objects.first()
+    except DatabaseError:
+        settings = SiteSettings(**defaults)
+    return {'site_settings': settings}

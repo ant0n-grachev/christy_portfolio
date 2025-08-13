@@ -63,9 +63,10 @@ FONT_CHOICES = [
 ]
 
 def validate_favicon_size(image):
-    img = Image.open(image)
-    if img.size not in [(16, 16), (32, 32)]:
-        raise ValidationError("Favicon must be 16×16 or 32×32 pixels.")
+    with Image.open(image) as img:
+        if img.size not in [(16, 16), (32, 32)]:
+            raise ValidationError("Favicon must be 16×16 or 32×32 pixels.")
+    image.seek(0)
 
 
 

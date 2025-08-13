@@ -30,3 +30,6 @@ def drawing_list(request):
 def drawing_detail(request, pk):
     drawing = get_object_or_404(Drawing, pk=pk)
     return render(request, 'drawings/drawing_detail.html', {'drawing': drawing})
+
+def server_error(request):
+    return render(request, "500.html", status=503)
