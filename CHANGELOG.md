@@ -7,6 +7,9 @@
 ### Added
 - Automatic Cloudflare cache purge when a post is published/deleted.
 
+### Changed
+- Loading Page
+
 ## [v3.2.1] - 2025-08-12
 ### Fixed
 - Eliminated cold-start 500 errors on Azure.
