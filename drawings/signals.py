@@ -1,5 +1,5 @@
-import os
-from django.db.models.signals import post_delete, pre_save, post_migrate
+import os, requests
+from django.db.models.signals import post_delete, pre_save, post_migrate, post_save
 from django.dispatch import receiver
 from .models import Drawing, SiteSettings
 from .context_processors import defaults
@@ -39,6 +39,26 @@ def replace_old_favicon(sender, instance, **kwargs):
 
 
 @receiver(post_migrate)
-def create_default_site_settings(sender, **kwargs):
+def create_default_site_settings(sender, instance, **kwargs):
     if not SiteSettings.objects.exists():
         SiteSettings.objects.create(**defaults)
+
+
+@receiver([post_save, post_delete], sender=Drawing)
+@receiver([post_save, post_delete], sender=SiteSettings)
+def purge_cache(sender, instance, **kwargs):
+    zone_id = os.environ.get("CLOUDFLARE_ZONE_ID")
+    api_token = os.environ.get("CLOUDFLARE_API_TOKEN")
+    if not zone_id or not api_token:
+        return
+
+    url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/purge_cache"
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json",
+    }
+    try:
+        response = requests.post(url, headers=headers, json={"purge_everything": True}, timeout=10)
+        response.raise_for_status()
+    except requests.RequestException:
+        return

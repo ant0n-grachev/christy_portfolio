@@ -56,8 +56,9 @@
                             <h3 class="card-title" style="min-height: 2.5rem;">
                                 {{ drawing.title }}
                             </h3>
-                            <p class="card-text flex-grow-1" style="min-height: 4rem;">
-                                {{ drawing.description|truncatewords:20 }}
+                            <p class="card-text flex-grow-1"
+                               style="line-height: 1.5; min-height: calc(1.5rem * 3); max-height: calc(1.5rem * 3); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                {{ drawing.description }}
                             </p>
                         </div>
                     </div>

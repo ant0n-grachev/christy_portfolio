@@ -1,5 +1,12 @@
 # Changelog
 
+## [v3.3] - 2025-08-21
+### Fixed
+- Line length of post descriptions on the main page.
+
+### Added
+- Automatic Cloudflare cache purge when a post is published/deleted.
+
 ## [v3.2.1] - 2025-08-12
 ### Fixed
 - Eliminated cold-start 500 errors on Azure.
