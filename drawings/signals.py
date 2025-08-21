@@ -58,7 +58,6 @@ def purge_cache(sender, instance, **kwargs):
         "Content-Type": "application/json",
     }
     try:
-        response = requests.post(url, headers=headers, json={"purge_everything": True}, timeout=10)
-        response.raise_for_status()
+        requests.post(url, headers=headers, json={"purge_everything": True}, timeout=10).raise_for_status()
     except requests.RequestException:
-        return
+        pass

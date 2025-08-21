@@ -37,9 +37,7 @@ defaults = {
 
 def site_settings(request):
     try:
-        settings = SiteSettings.objects.get(pk=1)
-    except SiteSettings.DoesNotExist:
-        settings = SiteSettings.objects.create(pk=1, **defaults)
+        settings, _ = SiteSettings.objects.get_or_create(pk=1, defaults=defaults)
     except SiteSettings.MultipleObjectsReturned:
         settings = SiteSettings.objects.first()
     except DatabaseError:
