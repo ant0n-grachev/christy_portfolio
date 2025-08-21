@@ -39,7 +39,7 @@ def replace_old_favicon(sender, instance, **kwargs):
 
 
 @receiver(post_migrate)
-def create_default_site_settings(sender, instance, **kwargs):
+def create_default_site_settings(sender, **kwargs):
     if not SiteSettings.objects.exists():
         SiteSettings.objects.create(**defaults)
 

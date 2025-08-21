@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="mb-5 text-center">
-        <a href="{% url 'drawing_list' %}{% if request.GET.from_page %}?page={{ request.GET.from_page }}{% endif %}"
+        <a href="{% url 'drawing_list' %}{% if 'from_page' in request.GET %}?page={{ request.GET.from_page }}{% endif %}"
            class="btn mx-2"
            style="background-color: {{ site_settings.button_bg }};
                    color: {{ site_settings.button_text_color }};">
