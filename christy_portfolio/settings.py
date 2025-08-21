@@ -28,6 +28,11 @@ if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
     ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+    CSRF_TRUSTED_ORIGINS = [
+        f"https://{host.strip()}"
+        for host in ALLOWED_HOSTS
+        if host.strip() and host.strip() != "*"
+    ]
 
 # For production only
 if not DEBUG:
